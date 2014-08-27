@@ -1,0 +1,7 @@
+{
+	"name": "node-express-booklet",
+	"main": "server.js",
+	"dependencies": {
+		"markdown-pdf": "latest"
+	}
+}
