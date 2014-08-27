@@ -4,7 +4,7 @@
 
 ## What We'll Be Building
 
-In this booklet, we'll be looking at how to create a simple 4-page website using Node and its most popular framework, [ExpressJS](http://expressjs.com/).
+In this booklet, we'll be looking at how to create a simple 3-page website using Node and its most popular framework, [ExpressJS](http://expressjs.com/).
 
 Here's a picture of the site we'll be creating. Nothing fancy from a design perspective. Our main focus will be on the Node and Express side of things and we'll just use [Twitter Bootstrap](http://getbootstrap.com/) for quick styling.
 
@@ -18,10 +18,10 @@ By building a sample site using Node and Express, we will learn many things incl
 - How to use [EJS](http://embeddedjs.com/) (a JavaScript templating engine) to template views
 - How to pass data and variables from server to HTML
 
-We'll have 4 pages with 2 different layout types:
+We'll have 3 pages with 2 different layout types:
 
 - Full Width Page (**Home** and **Contact**)
-- Page with Sidebar (**About** and **Services**)
+- Page with Sidebar (**About**)
 
 By using a full page and a sidebar layout, we'll be able to see how we can template our views. This will benefit us because we don't have to rewrite our view files over and over. [DRY](http://en.wikipedia.org/wiki/Don't_repeat_yourself) is the way to go!
 
