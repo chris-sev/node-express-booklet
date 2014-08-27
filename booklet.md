@@ -29,9 +29,43 @@ Now that we know what we are building, lets get started with the fun stuff, the 
 
 ## Starting our Application
 
+Let's start out by looking at the file structure for our application. This is a good way to get a top-down view and now what files we will need. Here are the files we have:
+
+    - public        (folder that will hold css/js/images)
+    - views         (will have our view files)
+    ----- partials  (the repeatable things for our site (head, header, footer))
+    ----- pages     (the main pages for our site (home, about, contact))
+    - package.json  (where we start our Node/Express application)
+    - server.js     (where we configure Express and define site routes)
+
 When starting a Node application, we will always start with the `package.json` file. This is where we define the main parts of our application like its name, version, author, license, and dependencies.
 
+Let's create our `package.json` file with the minimal attributes needed to start our application.
+
+    {
+        "name": "node-express-site",
+        "main": "server.js",
+        "dependencies": {
+            "express": "~4.8.5",
+            "ejs": "~1.0.0"
+        }
+    }
+
 ## Installing Express
+
+As you can see from the above `package.json` file, we have defined:
+
+- **name**: The name of our application
+- **main**: The file that we will use to start up our application.
+- **dependencies**: The dependencies that we will need (Express and EJS). 
+
+By adding `express`, `ejs`, and the version we want to the dependencies, we can now bring in both of these packages by running:
+
+`npm install`
+
+PICTURE HERE
+
+Now we have **defined our application** and **have the dependencies we need**. Let's start configuring our application using Node and Express in our `server.js` file.
 
 ## Starting a Node and Express Server
 
