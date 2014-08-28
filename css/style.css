@@ -1,5 +1,7 @@
 * 						{ box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box; }
 h1, h2, h3, h4, h5, h6 	{ margin-bottom:30px; margin-top:30px; }
 p 						{ line-height:1.8; }
-pre 					{ font-family:'Menlo,Monaco,Consolas,"Courier New",monospace'; padding:20px; background:#EFEFEF; border:none; }
+pre 					{ font-family:'Menlo,Monaco,Consolas,"Courier New",monospace'; padding:5px 10px 0; background:#EFEFEF; border:none; }
 code 					{ font-family:'Menlo,Monaco,Consolas,"Courier New",monospace'; background:#EFEFEF; color:#C7254E; padding:2px 4px; }
+
+pre code 				{ color:#333; padding:0; margin:0; font-size:90%; }
