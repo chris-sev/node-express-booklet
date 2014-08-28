@@ -85,6 +85,8 @@ We defined our main file earlier in our `package.json` file. We will be using a 
 
 Let's start up our `server.js` file and break it down for each section. We'll start by calling Express.
 
+    // CONFIGURATION ====================
+    // ==================================
     // load the express and create our application
     var express = require('express');
     var app     = express();
@@ -97,13 +99,161 @@ Let's start up our `server.js` file and break it down for each section. We'll st
     app.listen(port);
     console.log(port + ' is the magic port!');
 
-## Using EJS as our View Engine
+In this block of code, we are grabbing express, creating the application, and setting our port. All of this will create a Node server so that we can visit our application in browser. 
+
+Defining the `port` using `process.env.PORT` lets us dynamically set the port based on environment. This is useful when deploying our application to hosting environments like [Modulus](https://modulus.io/) since our application will be set to the correct port when starting up.
+
+By using `app.listen(port)`, our server will be started. Let's go into the command line and type:
+
+`node server.js`
+
+![Starting Node Server](http://i.imgur.com/qFXUIT7.jpg "Starting Node Server")
+
+*Automatically Restarting Your Node Server*: When we use `node server.js`, we start up our server. The problem with this way of starting the server during development is that we will need to shut the server down and then restart it to see new changes every time we update our files. This could be a tedious when making constant file changes. Luckily there is a package that we can install that will automatically restart the server on file changes. Say hello to a package called **nodemon**. Install it using `npm install -g nodemon` and then you can start your server with `nodemon server.js`. Watch the magic happen when you update your files and your server restarts itself!
+
+Our server is now up and running and since we set our port to `8080`, we are now able to visit the site in our browser at `http://localhost:8080`.
+
+Unfortunately, we won't see anything in our browser yet because we haven't defined any routes or data to show our users yet. Let's get to that now.
 
 ## Setting Up Express Routes
 
+When creating routes, Express comes with its [Router](http://expressjs.com/api#router). We can use this to create routes on the `app` object we made earlier. Here is a very simple route to send a string to our users in the browser. 
+
+    // index/home page  
+    app.get('/', function(req, res) {
+        res.send('Look! I am the home page!');
+    });
+
+The `res.send` command will send this string to our user. This is a limited command since we aren't sending a full web page to our users. Hang tight, we'll get to the HTML and CSS soon.
+
+Now once we start up our server using `node server.js` (or `nodemon server.js`), we can finally go into our browser and see our application at `http://localhost:8080`.
+
+PICTURE HERE
+
+Let's add the other 2 routes that we will need for our other pages (**About** and **Contact**). Add these to your `server.js` file.
+
+    // about page 
+    app.get('/about', function(req, res) {
+        res.send('Hey there! I am the about page');
+    });
+    // contact page 
+    app.get('/contact', function(req, res) {
+        res.send('Looking to contact someone?');
+    });
+
+We can see both of these in our browser now. Up to this point, we have successfully **created our Node and Express server**, **set up our application routes**, and **sent data to our users**. While this is impressive to us, our users will probably want to see more than just a message.
+
+The next step is to set up a good looking HTML/CSS site and send that to our users. Then we'll have a fully functioning website to show off!
+
+## Using EJS as our View Engine
+
+[EJS](http://embeddedjs.com/) is one of the templating engines that we can use with Express. Some other templating engines we can use are Jade, Haml, hbs (handlebars), and swig. Take a look at the list of [templating engines](https://github.com/strongloop/express/wiki#template-engines) that are available.
+
+We'll use EJS since the syntax is very easy to use and sticks close to standard HTML syntax and standards. 
+
+Since we already took care of installing EJS earlier in our `package.json` file, we just need to configure our application to use it. Add this line to our `server.js` file and we have turned on EJS as our templating engine.
+
+    // set the view engine to ejs
+    app.set('view engine', 'ejs');
+
+Easy stuff! Let's move onto our view files.
+
 ### Setting Up The Base Site and Styles
 
-### Templating Our View Files
+Earlier when we looked at the file structure, we had a **views** folder. Go ahead and create a folder inside of that called **pages** and create a file called `home.ejs`. This will be the file for our home page and we'll send this to our users inside of our `app.get('/', ...` route.
+
+We'll keep this file very simple and use Bootstrap classes to style our page. We'll load a Bootstrap file from [Bootstrap CDN](http://www.bootstrapcdn.com/). Feel free to use the default Bootstrap file, any of the Bootswatch files, or just not use Bootstrap and style things fully custom.
+
+Here's our `home.ejs` file in all its glory.
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Node and Express Site</title>
+    
+        <!-- CSS -->
+        <!-- load a bootstrap theme called sandstone -->
+        <!-- referencing local files will look in the /public folder -->
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/sandstone/bootstrap.min.css">
+    </head>
+    <body class="container">
+    
+        <header>
+            <nav class="navbar navbar-default" role="navigation">
+    
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-fire"></span> Awesome!</a>
+                </div>
+    
+                <ul class="nav navbar-nav">
+                    <li><a href="/home">Home</a></li>
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                </ul>
+    
+            </nav>
+        </header>
+    
+        <main>
+            <div class="jumbotron text-center">
+                <h1>Home Page</h1>
+                <p>This is my first Node and Express home page!</p>
+            </div>
+        </main>
+    
+        <footer>
+            <p class="text-center text-muted">
+                Copyright &copy; 2014 Cool Programmers
+            </p>
+        </footer>
+    
+    </body>
+    </html>
+
+A lot of this is standard HTML using the Bootstrap classes. EJS is easy to use since our files look exactly like any other HTML site we would create.
+
+We've created our EJS file, and now we have to send this to our users. Update your home page route in `server.js` to send back the newly created view:
+
+    // index/home page  
+    app.get('/', function(req, res) {
+        res.render('pages/home');
+    });
+
+Express let's use send an EJS template file to our users using `res.render()`. 
+
+*File Structure for EJS View Files*: By default, Express and EJS will look in a **views** folder in the root of your application so make sure you reference files from that folder.
+
+Load up your server again using `node server.js` (or `nodemon server.js`) and visit your site at `http://localhost:8080`.
+
+PICTURE HERE
+
+Great stuff! We have a great looking home page now.
+
+### Adding Public Assets (CSS/JS/Images)
+
+We want this site to become the best site that it can possibly be so let's add in some custom CSS and images. 
+
+For our Express site, we will want to access css from our site. This means we have to make sure our application knows where to find our resources. We already created the **public** folder earlier, so we only have to point Express to that directory when calling assets. This can be done with one line in our `server.js` file.
+
+    // set the path for all public resources (css/js/images)
+    app.use(express.static(__dirname + '/public'));
+
+Next, we will create a css file that we can put all of our custom css at. Create the following file: `public/css/style.css`
+
+    body    { background:#DDD; padding-top:50px; }
+
+Now that we have told Express where to look for assets and created the asset, the last order of business is to add it to our site.
+
+Add the following line to your `home.ejs` file in the `<head>` of the document.
+
+    <link rel="stylesheet" href="css/style.css">
+
+Our application will automatically look in the **public** folder for this stylesheet and when we refresh our site, we have our stylesheet changes!
+
+PICTURE HERE
+
+### Templating Our Application
 
 ### Passing Data to Our Views
 
