@@ -506,15 +506,15 @@ Here are the updated routes in our `server.js` file with data passed into each:
 
     // about page 
     app.get('/about', function(req, res) {
-        // define a list of people
-        var people = [
+        // define a list of superheroes
+        var superheroes = [
             { name: 'Bruce Wayne', alias: 'Batman' },
             { name: 'Clark Kent', alias: 'Superman' },
             { name: 'Scott Lang', alias: 'Ant Man' }
         ];
 
         res.render('pages/about', {
-            people: people
+            superheroes: superheroes
         });
     });
 
@@ -529,25 +529,75 @@ Each route now has data being passed to it. Let's go one by one and use that dat
 
 #### Use EJS to Display a Variable (Home Page)
 
+The syntax to display data in an EJS file is: `<%= variable %>`. We will use this in our home page since we've passed the **name** variable to it.
+
+Here is the code we need in `home.ejs`:
+
+    <h2>Who are You?</h2>
+
+    <p><%= name %></p>
+
+Our variable will show up in the Home Page now.
+
 PICTURE HERE
 
 #### Use EJS to Display a List (About Page)
+Using a list of data is something we can use a lot in our own applications. We can use it for showing a list of data which is often used if we're building some sort of CRUD management panel.
 
+Let's take a look at how to use the list of superheroes we passed into the **About Page**. Add the following to your `about.ejs` file:
+
+    <h2>Superheroes</h2>
+
+    <table class="table table-bordered table-striped">
+        <tbody>
+            <% superheroes.forEach(function(superhero) { %>
+            <tr>
+                <td><%= superhero.name %></td>
+                <td><%= superhero.alias %></td>
+            </tr>
+            <% }); %>
+        </tbody>
+    </table>
+
+The `table table-bordered table-striped` are all Bootstrap classes that help us style our table. Here is what our new table of superheroes will look like now:
 
 PICTURE HERE
 
 #### Use EJS for an if Statement (Contact Page)
 
+In our contact page route, we have passed in a boolean that states that the `active` variable is set to **true**. Let's go into `contact.ejs` and use an EJS if statement to display a message if our variable is true.
+
+    <% if (active) { %>             
+        <h2>We're Good to Go!</h2>
+    <% } %>
+
+Just like that our message will show up if active is true.
+
 PICTURE HERE
 
 If you go back into `server.js` and change `active` to **false** and refresh that contact page, the message will disappear.
 
-## Conclusion and Further Reading
+## Conclusion
 
 We made it! A fully functioning and good looking website using Node, Express, and EJS!
 
-To recap all the things we've learned:
+To recap all the things we have accomplished, we have:
 
-- 1
-- 2
-- 3
+- Set up a Node project
+- Installed Node packages using npm
+- Used Express to start a server
+- Used Express to provide public assets
+- Used Express to set up application routes
+- Used Express to pass data to our views
+- Set up EJS to template our views
+- Used EJS to display data in our views
+- Learned concepts about Node and Express
+- Built a Node/Express website!
+
+Congrats on setting up your Node/Express site and here are some great sites to further your learning:
+
+- [Modulus](http://blog.modulus.io/)
+- [Scotch](http://scotch.io/category/javascript)
+- [NodeSchool](http://nodeschool.io/)
+- [The Art of Node](https://github.com/maxogden/art-of-node/#the-art-of-node)
+- [Great List of Node Resources](http://stackoverflow.com/questions/2353818/how-do-i-get-started-with-node-js)
