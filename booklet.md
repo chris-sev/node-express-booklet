@@ -124,7 +124,7 @@ When creating routes, Express comes with its [Router](http://expressjs.com/api#r
         res.send('Look! I am the home page!');
     });
 
-The `res.send` command will send this string to our user. This is a limited command since we aren't sending a full web page to our users. Hang tight, we'll get to the HTML and CSS soon.
+The `res.send` command will send this string to our user. This is a limited command since we are only sending a little sentence to our user and not sending a full web page to our users. Hang tight though, we'll get to the HTML and CSS soon.
 
 Now once we start up our server using `node server.js` (or `nodemon server.js`), we can finally go into our browser and see our application at `http://localhost:8080`.
 
@@ -136,6 +136,7 @@ Let's add the other 2 routes that we will need for our other pages (**About** an
     app.get('/about', function(req, res) {
         res.send('Hey there! I am the about page');
     });
+
     // contact page 
     app.get('/contact', function(req, res) {
         res.send('Looking to contact someone?');
@@ -158,7 +159,7 @@ Since we already took care of installing EJS earlier in our `package.json` file,
 
 Easy stuff! Let's move onto our view files.
 
-### Setting Up The Base Site and Styles
+### Setting Up The Views
 
 Earlier when we looked at the file structure, we had a **views** folder. Go ahead and create a folder inside of that called **pages** and create a file called `home.ejs`. This will be the file for our home page and we'll send this to our users inside of our `app.get('/', ...` route.
 
@@ -187,7 +188,7 @@ Here's our `home.ejs` file in all its glory.
                 </div>
     
                 <ul class="nav navbar-nav">
-                    <li><a href="/home">Home</a></li>
+                    <li><a href="/">Home</a></li>
                     <li><a href="/about">About</a></li>
                     <li><a href="/contact">Contact</a></li>
                 </ul>
@@ -213,6 +214,8 @@ Here's our `home.ejs` file in all its glory.
 
 A lot of this is standard HTML using the Bootstrap classes. EJS is easy to use since our files look exactly like any other HTML site we would create.
 
+### Sending a View to Our User
+
 We've created our EJS file, and now we have to send this to our users. Update your home page route in `server.js` to send back the newly created view:
 
     // index/home page  
@@ -228,7 +231,19 @@ Load up your server again using `node server.js` (or `nodemon server.js`) and vi
 
 PICTURE HERE
 
-Great stuff! We have a great looking home page now.
+Great stuff! Let's go ahead and update our other routes so that we are using `res.render()` again.
+
+    // about page 
+    app.get('/about', function(req, res) {
+        res.render('pages/about');
+    });
+
+    // contact page 
+    app.get('/contact', function(req, res) {
+        res.render('pages/contact');
+    });
+
+We have a good looking home page now, but let's look to improve it by adding some custom css and 
 
 ### Adding Public Assets (CSS/JS/Images)
 
@@ -253,8 +268,286 @@ Our application will automatically look in the **public** folder for this styles
 
 PICTURE HERE
 
+Let's also add a picture just so we can see how we can easily add pictures. Take any photo you want and add it to a **public/img** folder. Now you can go into your `home.ejs` file and add that like you would normally:
+
+    <main>
+        <div class="jumbotron text-center">
+            <h1>Home Page</h1>
+            <p>This is my first Node and Express home page!</p>
+    
+            <img src="img/city.jpg" alt="This is the city!">
+        </div>
+    </main>
+
+Our site will go into the **public** folder when looking for that image and display add it to our site!
+
+![Site with Image](http://i.imgur.com/akXtVxu.png "Site with Image")
+
+We have now **created an ejs file**, **displayed that to our user** as the home page, **routed public assets**, and **added a css file and an image**.
+
+Let's move onto the other two pages of our site.
+
 ### Templating Our Application
+
+When creating the other two pages of our site, we won't want to repeat the entire page code from `home.ejs` over and over. The repeatable code are things like the `<head>` of the document, the `<header>`, and the `<footer>`.
+
+We're going to pull that code out of the `home.ejs` file and store those into **partials**. By doing this, we can include these files into each of our pages and be efficient and DRY with our code.
+
+Inside of the **views/partials** folder create 4 different EJS files: `head.ejs`, `header.ejs`, `footer.ejs`, and `sidebar.ejs` (we'll use this for the About page).
+
+We're going to take the respective parts outside of `home.ejs` and use EJS includes instead.
+
+Here is the code for each of those 4 files we just created:
+
+`views/partials/head.ejs`
+
+    <meta charset="UTF-8">
+    <title>Node and Express Site</title>
+
+    <!-- CSS -->
+    <!-- load our css file and a bootstrap theme called paper -->
+    <!-- referencing local files will look in the /public folder -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/sandstone/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
+`views/partials/header.ejs`
+
+    <nav class="navbar navbar-default" role="navigation">
+
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-fire"></span> Awesome!</a>
+        </div>
+
+        <ul class="nav navbar-nav">
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/contact">Contact</a></li>
+        </ul>
+
+    </nav>
+
+`views/partials/footer.ejs`
+
+    <p class="text-center text-muted">
+        Copyright &copy; 2014 Cool Programmers
+    </p>
+
+`views/partials/sidebar.ejs`
+
+    <div class="panel panel-primary">
+
+        <div class="panel-heading">
+            <h3 class="panel-title">Popular Stuff</h3>
+        </div>
+
+        <div class="panel-body">
+
+            <div class="list-group">
+                <a href="#" class="list-group-item">The Sun is Gigantic</a>
+                <a href="#" class="list-group-item">Top 10 Fails</a>
+                <a href="#" class="list-group-item">Coffee is Important</a>
+                <a href="#" class="list-group-item">Programming in Node is Too Fun</a>
+            </div>
+
+        </div>
+    </div>
+
+### Inserting Partials with EJS 
+
+Now that we have defined our **partials files**, we need to include them in our **pages files**. To include a partial using EJS, use the following:
+
+`<% include file_name %>`
+
+When including a file like this, the path to that file is **relative to the current file**. Let's use home.ejs as the main example. 
+
+#### Home Page 
+
+Here is `home.ejs` using includes:
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <% include ../partials/head %>
+    </head>
+    <body class="container">
+    
+        <header>
+            <% include ../partials/header %>
+        </header>
+    
+        <main>
+            <div class="jumbotron text-center">
+                <h1>Home Page</h1>
+                <p>This is my first Node and Express home page!</p>
+    
+                <img src="img/city.jpg" alt="This is the city!">
+            </div>
+        </main>
+    
+        <footer>
+            <% include ../partials/footer %>
+        </footer>
+    
+    </body>
+    </html>
+
+#### Contact Page
+
+Let's also create our **Contact Page** (`views/pages/contact.ejs`). This page will use a full width layout so it is very similar to our home page. It just uses different content in the `<main>` section and thanks to our includes, we don't have to repeat a lot of code!
+
+Here's the code for `contact.ejs`:
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <% include ../partials/head %>
+    </head>
+    <body class="container">
+    
+        <header>
+            <% include ../partials/header %>
+        </header>
+    
+        <main>
+            <div class="jumbotron text-center">
+                <h1>Contact Page</h1>
+                <p>Fill out the contact form if you can get past the bear!</p>
+    
+                <img src="img/bear.jpg" alt="Bear in Your Face">
+            </div>
+        </main>
+    
+        <footer>
+            <% include ../partials/footer %>
+        </footer>
+    
+    </body>
+    </html>
+
+Here is our new contact page viewed in the browser at `http://localhost:8080/contact`:
+
+PICTURE HERE
+
+#### About Page (with a sidebar)
+
+The last page we have to create is our About Page. This page will differ from the other two pages because it will have a sidebar attached to it. We'll use Bootstrap's grid classes (`col-sm-8` and `col-sm-4`) to define a main part of the page and the sidebar.
+
+Here's the code for the `about.ejs` file:
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <% include ../partials/head %>
+    </head>
+    <body class="container">
+
+        <header>
+            <% include ../partials/header %>
+        </header>
+
+        <main>
+
+            <div class="row">
+
+                <div class="col-sm-8">
+                    <div class="jumbotron text-center">
+                        <h1>About Page</h1>
+                        <p>This is my first Node and Express home page!</p>
+
+                        <img src="img/raspberries.jpg" alt="Food!">
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <% include ../partials/sidebar %>   
+                </div>
+
+            </div>
+
+        </main>
+
+        <footer>
+            <% include ../partials/footer %>
+        </footer>
+
+    </body>
+    </html>
+
+We are using other Bootstrap classes here like the `panel` and the `list-group`. Give the [Bootstrap docs](http://getbootstrap.com/components/) a look through to see the cool prebuilt classes they give you access to. 
+
+PICTURE HERE
+
+Now we have our **About Page with a sidebar**! By using **ejs includes**, we can quickly and easily create multiple types of page types.
 
 ### Passing Data to Our Views
 
+The last part of our site that we will deal with is passing dynamic data to our views. In the future, we will want our site to be dynamic and have the ability to pull in data from a database or multiple sources online via APIs.
+
+While getting dynamic data is outside of the scope of our tutorial, we'll look at how we can take data and pass it into our views using EJS.
+
+#### Passing Data in Each Route
+
+Data is passed to each view in an Express route inside the `res.render()` function.
+
+We are going to pass the following data into each view:
+
+- A variable into the home page
+- A list into the about page
+- A boolean variable into the contact page 
+
+Here are the updated routes in our `server.js` file with data passed into each:
+
+    // index/home page 
+    app.get('/', function(req, res) {
+        res.render('./pages/home', {
+            name: 'John Doe'
+        });
+    });
+
+    // about page 
+    app.get('/about', function(req, res) {
+        // define a list of people
+        var people = [
+            { name: 'Bruce Wayne', alias: 'Batman' },
+            { name: 'Clark Kent', alias: 'Superman' },
+            { name: 'Scott Lang', alias: 'Ant Man' }
+        ];
+
+        res.render('pages/about', {
+            people: people
+        });
+    });
+
+    // contact page 
+    app.get('/contact', function(req, res) {
+        res.render('pages/contact', {
+            active: true
+        });
+    });
+
+Each route now has data being passed to it. Let's go one by one and use that data in each respective view.
+
+#### Use EJS to Display a Variable (Home Page)
+
+PICTURE HERE
+
+#### Use EJS to Display a List (About Page)
+
+
+PICTURE HERE
+
+#### Use EJS for an if Statement (Contact Page)
+
+PICTURE HERE
+
+If you go back into `server.js` and change `active` to **false** and refresh that contact page, the message will disappear.
+
 ## Conclusion and Further Reading
+
+We made it! A fully functioning and good looking website using Node, Express, and EJS!
+
+To recap all the things we've learned:
+
+- 1
+- 2
+- 3
