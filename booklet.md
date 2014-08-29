@@ -128,7 +128,7 @@ The `res.send` command will send this string to our user. This is a limited comm
 
 Now once we start up our server using `node server.js` (or `nodemon server.js`), we can finally go into our browser and see our application at `http://localhost:8080`.
 
-PICTURE HERE
+![Basic Route](http://i.imgur.com/pPf2wr6.png "Basic Route")
 
 Let's add the other 2 routes that we will need for our other pages (**About** and **Contact**). Add these to your `server.js` file.
 
@@ -229,7 +229,7 @@ Express let's use send an EJS template file to our users using `res.render()`.
 
 Load up your server again using `node server.js` (or `nodemon server.js`) and visit your site at `http://localhost:8080`.
 
-PICTURE HERE
+![Basic Home Page](http://i.imgur.com/nQFwOA1.png "Basic Home Page")
 
 Great stuff! Let's go ahead and update our other routes so that we are using `res.render()` again.
 
@@ -266,7 +266,7 @@ Add the following line to your `home.ejs` file in the `<head>` of the document.
 
 Our application will automatically look in the **public** folder for this stylesheet and when we refresh our site, we have our stylesheet changes!
 
-PICTURE HERE
+![Home Page with Custom CSS](http://i.imgur.com/uLV7JTq.png "Optional title")
 
 Let's also add a picture just so we can see how we can easily add pictures. Take any photo you want and add it to a **public/img** folder. Now you can go into your `home.ejs` file and add that like you would normally:
 
@@ -281,7 +281,7 @@ Let's also add a picture just so we can see how we can easily add pictures. Take
 
 Our site will go into the **public** folder when looking for that image and display add it to our site!
 
-![Site with Image](http://i.imgur.com/akXtVxu.png "Site with Image")
+![Site with Image](http://i.imgur.com/AUvlfqE.png "Site with Image")
 
 We have now **created an ejs file**, **displayed that to our user** as the home page, **routed public assets**, and **added a css file and an image**.
 
@@ -426,7 +426,7 @@ Here's the code for `contact.ejs`:
 
 Here is our new contact page viewed in the browser at `http://localhost:8080/contact`:
 
-PICTURE HERE
+![Contact Page](http://i.imgur.com/45G9zPO.png "Contact Page")
 
 #### About Page (with a sidebar)
 
@@ -475,7 +475,7 @@ Here's the code for the `about.ejs` file:
 
 We are using other Bootstrap classes here like the `panel` and the `list-group`. Give the [Bootstrap docs](http://getbootstrap.com/components/) a look through to see the cool prebuilt classes they give you access to. 
 
-PICTURE HERE
+![About Page](http://i.imgur.com/7T8qVLw.png "About Page")
 
 Now we have our **About Page with a sidebar**! By using **ejs includes**, we can quickly and easily create multiple types of page types.
 
@@ -539,7 +539,7 @@ Here is the code we need in `home.ejs`:
 
 Our variable will show up in the Home Page now.
 
-PICTURE HERE
+![Home Page with Name](http://i.imgur.com/IWW3htZ.png "Home Page with Name")
 
 #### Use EJS to Display a List (About Page)
 Using a list of data is something we can use a lot in our own applications. We can use it for showing a list of data which is often used if we're building some sort of CRUD management panel.
@@ -561,7 +561,7 @@ Let's take a look at how to use the list of superheroes we passed into the **Abo
 
 The `table table-bordered table-striped` are all Bootstrap classes that help us style our table. Here is what our new table of superheroes will look like now:
 
-PICTURE HERE
+![About Page with List](http://i.imgur.com/S6ZKEVt.png "About Page with List")
 
 #### Use EJS for an if Statement (Contact Page)
 
@@ -573,7 +573,7 @@ In our contact page route, we have passed in a boolean that states that the `act
 
 Just like that our message will show up if active is true.
 
-PICTURE HERE
+![Contact Page with Message](http://i.imgur.com/Ogkqui2.png "Contact Page with Message")
 
 If you go back into `server.js` and change `active` to **false** and refresh that contact page, the message will disappear.
 
