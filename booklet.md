@@ -515,6 +515,8 @@ Each route now has data being passed to it. Let's go one by one and use that dat
 
 The syntax to display data in an EJS file is: `<%= variable %>`. We will use this in our home page since we've passed the **name** variable to it.
 
+*EJS Tags:* Notice how when we want to echo out information to the view, we are using `<%= =>` instead of the `<% %>` that we used earlier to include our partials. The difference is that `<% %>` is used to execute EJS JavaScript. So including a partial is seen as JavaScript code and you'll also see shortly that the same is used when writing a JavaScript `forEach` in our views. `<%= %>` is just used when we want to display a single variable like how we show `name` in the next example.
+
 Here is the code we need in `home.ejs`:
 
     <h2>Who are You?</h2>
