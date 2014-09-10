@@ -25,7 +25,19 @@ We'll have 3 pages with 2 different layout types:
 
 By using a full page and a sidebar layout, we'll be able to see how we can template our views. This will benefit us because we don't have to rewrite our view files over and over. [DRY](http://en.wikipedia.org/wiki/Don't_repeat_yourself) is the way to go!
 
-Now that we know what we are building, lets get started with the fun stuff, the actual programming!
+## Prerequisites
+
+To get started with this booklet, you will need some prerequisite knowledge about JavaScript, Node, and npm packages. Nothing too in depth, just some basic syntax for JavaScript and understanding the basics of Node and npm.
+
+For a good overview of what you'll need to know, check out this [Absolute Beginner's Guide to Node.js](http://blog.modulus.io/absolute-beginners-guide-to-nodejs).
+
+With that in mind, make sure you have installed [Node.js](http://nodejs.org/) on your machine. To double check that you have both Node and npm (it's installed with Node), type the following:
+
+`node --version` and `npm --version`
+
+If you see versions, great! If you don't, make sure that you have Node and npm added to your `PATH` so that your command line application has access to the **node** and **npm** commands. 
+
+Now that we know what we are building and have all the things we need, lets get started with the fun stuff, the actual programming!
 
 ## Starting our Application
 
