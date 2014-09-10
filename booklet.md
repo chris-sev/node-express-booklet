@@ -45,7 +45,7 @@ Let's start out by looking at the file structure for our application. This is a 
 
 - public        (folder that will hold css/js/images)
 - views         (will have our view files)
-    - partials  (the repeatable things for our site (head, header, footer))
+    - partials  (the repeatable things for our site (header, footer, sidebar))
     - pages     (the main pages for our site (home, about, contact))
 - package.json  (where we start our Node/Express application)
 - server.js     (where we configure Express and define site routes)
@@ -301,48 +301,62 @@ Let's move onto the other two pages of our site.
 
 ### Templating Our Application
 
-When creating the other two pages of our site, we won't want to repeat the entire page code from `home.ejs` over and over. The repeatable code are things like the `<head>` of the document, the `<header>`, and the `<footer>`.
+When creating the other two pages of our site, we won't want to repeat the entire page code from `home.ejs` over and over. The repeatable code are things like the `<header>`, the `sidebar`, and the `<footer>`.
 
 We're going to pull that code out of the `home.ejs` file and store those into **partials**. By doing this, we can include these files into each of our pages and be efficient and DRY with our code.
 
-Inside of the **views/partials** folder create 4 different EJS files: `head.ejs`, `header.ejs`, `footer.ejs`, and `sidebar.ejs` (we'll use this for the About page).
+Inside of the **views/partials** folder create 3 different EJS files: `header.ejs`, `footer.ejs`, and `sidebar.ejs` (we'll use this for the About page).
 
 We're going to take the respective parts outside of `home.ejs` and use EJS includes instead.
 
-Here is the code for each of those 4 files we just created:
-
-`views/partials/head.ejs`
-
-    <meta charset="UTF-8">
-    <title>Node and Express Site</title>
-
-    <!-- CSS -->
-    <!-- load our css file and a bootstrap theme called paper -->
-    <!-- referencing local files will look in the /public folder -->
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/sandstone/bootstrap.min.css">
-    <link rel="stylesheet" href="css/style.css">
+Here is the code for each of those 3 files we just created:
 
 `views/partials/header.ejs`
 
-    <nav class="navbar navbar-default" role="navigation">
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Node and Express Site</title>
 
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-fire"></span> Awesome!</a>
-        </div>
+        <!-- CSS -->
+        <!-- load our css file and a bootstrap theme called sandstone -->
+        <!-- referencing local files will look in the /public folder -->
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/sandstone/bootstrap.min.css">
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body class="container">
 
-        <ul class="nav navbar-nav">
-            <li><a href="/">Home</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/contact">Contact</a></li>
-        </ul>
+        <header>
+            <nav class="navbar navbar-default" role="navigation">
 
-    </nav>
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-fire"></span> Awesome!</a>
+                </div>
+
+                <ul class="nav navbar-nav">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                </ul>
+
+            </nav>
+        </header>
+
+We essentially just took the top half of our website and added it to a partial file so that it can be reused across all pages.
 
 `views/partials/footer.ejs`
 
-    <p class="text-center text-muted">
-        Copyright &copy; 2014 Cool Programmers
-    </p>
+        <footer>
+            <p class="text-center text-muted">
+                Copyright &copy; 2014 Cool Programmers
+            </p>
+        </footer>
+
+    </body>
+    </html>
+
+Again, same technique, but with the bottom half of our site.
 
 `views/partials/sidebar.ejs`
 
@@ -376,16 +390,7 @@ When including a file like this, the path to that file is **relative to the curr
 
 Here is `home.ejs` using includes:
 
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <% include ../partials/head %>
-    </head>
-    <body class="container">
-    
-        <header>
-            <% include ../partials/header %>
-        </header>
+    <% include ../partials/header %>
     
         <main>
             <div class="jumbotron text-center">
@@ -396,12 +401,7 @@ Here is `home.ejs` using includes:
             </div>
         </main>
     
-        <footer>
-            <% include ../partials/footer %>
-        </footer>
-    
-    </body>
-    </html>
+    <% include ../partials/footer %>
 
 #### Contact Page
 
@@ -409,16 +409,7 @@ Let's also create our **Contact Page** (`views/pages/contact.ejs`). This page wi
 
 Here's the code for `contact.ejs`:
 
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <% include ../partials/head %>
-    </head>
-    <body class="container">
-    
-        <header>
-            <% include ../partials/header %>
-        </header>
+    <% include ../partials/header %>
     
         <main>
             <div class="jumbotron text-center">
@@ -429,12 +420,7 @@ Here's the code for `contact.ejs`:
             </div>
         </main>
     
-        <footer>
-            <% include ../partials/footer %>
-        </footer>
-    
-    </body>
-    </html>
+    <% include ../partials/footer %>
 
 Here is our new contact page viewed in the browser at `http://localhost:8080/contact`:
 
@@ -446,16 +432,7 @@ The last page we have to create is our About Page. This page will differ from th
 
 Here's the code for the `about.ejs` file:
 
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <% include ../partials/head %>
-    </head>
-    <body class="container">
-
-        <header>
-            <% include ../partials/header %>
-        </header>
+    <% include ../partials/header %>
 
         <main>
 
@@ -478,12 +455,7 @@ Here's the code for the `about.ejs` file:
 
         </main>
 
-        <footer>
-            <% include ../partials/footer %>
-        </footer>
-
-    </body>
-    </html>
+    <% include ../partials/footer %>
 
 We are using other Bootstrap classes here like the `panel` and the `list-group`. Give the [Bootstrap docs](http://getbootstrap.com/components/) a look through to see the cool prebuilt classes they give you access to. 
 
